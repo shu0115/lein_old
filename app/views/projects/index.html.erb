@@ -1,0 +1,45 @@
+
+<h1>Listing projects</h1>
+
+<table>
+  <tr>
+    <th>Owner</th>
+    <th>Email</th>
+    <th>Title</th>
+    <th>Description</th>
+<% if false %>
+    <th>Url</th>
+    <th>Image</th>
+<% end %>
+    <th>Supporter count</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @projects.each{ |project| %>
+  <tr>
+    <td><%= link_to_unless( project.user.try(:screen_name).blank?, image_tag( project.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{project.user.try(:screen_name)}", target: "_blank" ) %></td>
+    <td><%= project.email %></td>
+    <td><%= project.title %></td>
+    <td><%= project.description %></td>
+<% if false %>
+    <td><%= project.url %></td>
+    <td><%= project.image %></td>
+<% end %>
+    <td><%= project.supporter_count %></td>
+    <td><%= link_to t( "menu.show", default: "Show" ), action: "show", id: project.id %></td>
+    <td><%= link_to t( "menu.edit", default: "Edit" ), action: "edit", id: project.id %></td>
+    <td><%= link_to t( "menu.destroy", default: "Delete" ), { action: "destroy", id: project.id }, onclick: "return confirm('本当に削除してよろしいですか？');" %></td>
+  </tr>
+<% } %>
+</table>
+
+<br />
+
+<%= link_to t( "menu.new", default: "New" ), action: "new" %>
+
+<br />
+<br />
+
+<%= link_to t( "menu.top", default: "Top" ), :root %>

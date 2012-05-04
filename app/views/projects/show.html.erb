@@ -1,0 +1,66 @@
+
+<p>
+<% if Supporter.where( project_id: @project.id, user_id: session[:user_id] ).exists? %>
+  <%= link_to "サポーターをやめる", { action: "delete_supporter", project_id: @project.id }, onclick: "return confirm('「#{@project.title}」のサポーターをやめます。');" %>
+<% else %>
+  <%= link_to "サポーターになる", { action: "add_supporter", project_id: @project.id }, onclick: "return confirm('「#{@project.title}」のサポーターになります。');" %>
+<% end %>
+</p>
+
+<p>
+  <b>User:</b><br />
+  <%= @project.user_id %>
+</p>
+
+<p>
+  <b>Email:</b><br />
+  <%= @project.email %>
+</p>
+
+<p>
+  <b>Title:</b><br />
+  <%= @project.title %>
+</p>
+
+<p>
+  <b>Description:</b><br />
+  <%= @project.description %>
+</p>
+
+<p>
+  <b>Url:</b><br />
+  <%= @project.url %>
+</p>
+
+<p>
+  <b>Image:</b><br />
+  <%= @project.image %>
+</p>
+
+<p>
+  <b>Supporter count:</b><br />
+  <%= @project.supporter_count %>
+</p>
+
+<b>サポーター一覧：</b><br />
+
+<table>
+  <tr>
+    <th>Icon</th>
+    <th>Name</th>
+    <th>Since</th>
+  </tr>
+
+<% @project.supporters.each{ |supporter| %>
+  <tr>
+    <td><%= link_to_unless( supporter.user.try(:screen_name).blank?, image_tag( supporter.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{supporter.user.try(:screen_name)}", target: "_blank" ) %></td>
+    <td><%= supporter.user.try(:screen_name) %></td>
+    <td><%= supporter.created_at.strftime("%Y/%m/%d %H:%M:%S") unless supporter.created_at.blank? %></td>
+  </tr>
+<% } %>
+</table>
+
+<br />
+
+<%= link_to t( "menu.edit", default: "Edit" ), action: "edit", id: @project.id %>
+ | <%= link_to t( "menu.list", default: "List" ), action: "index" %>

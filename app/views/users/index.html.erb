@@ -1,0 +1,23 @@
+
+<h1>Listing Users</h1>
+
+<table>
+  <tr>
+    <th>Icon</th>
+    <th>Name</th>
+    <th></th>
+  </tr>
+
+<% @users.each{ |user| %>
+  <tr>
+    <td><%= link_to_unless( user.screen_name.blank?, image_tag( user.image, size: "20x20" ), "https://twitter.com/#!/#{user.screen_name}", target: "_blank" ) %></td>
+    <td><%= user.screen_name %></td>
+    <td><%= link_to t( "menu.show", default: "Show" ), action: "show", id: user.id %></td>
+  </tr>
+<% } %>
+</table>
+
+<br />
+<br />
+
+<%= link_to t( "menu.top", default: "Top" ), :root %>

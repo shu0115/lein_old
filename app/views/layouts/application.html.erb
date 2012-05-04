@@ -11,7 +11,10 @@
 <%# ----- 追加 ----- %>
 <% if current_user %>
   <%# ログイン済み %>
+  <%= link_to_unless( current_user.screen_name.blank?, image_tag( current_user.image, size: "20x20" ), "https://twitter.com/#!/#{current_user.screen_name}", target: "_blank" ) %>
   <%= current_user.name %> : 
+   | <%= link_to( "Project", { controller: "projects" } ) %>
+   | <%= link_to( "User", { controller: "users" } ) %>
    || <%= link_to "Logout" , logout_path %>
 <% else %>
   <%# 未ログイン %>
@@ -24,6 +27,14 @@
 <%# ----- ／追加 ----- %>
 
 <%= yield %>
+
+<br />
+<br />
+
+<center>
+  Developed by <a href="https://twitter.com/#!/shu_0115/" target="_blank">@shu_0115</a>,
+  Licence by <a href="http://creativecommons.org/licenses/by-nc-sa/2.1/jp/" target="_blank">CC BY-NC-SA 2.1</a>
+</center>
 
 </body>
 </html>

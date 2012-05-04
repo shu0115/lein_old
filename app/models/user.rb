@@ -1,6 +1,9 @@
 # coding: utf-8
 class User < ActiveRecord::Base
   attr_accessible :provider, :uid, :name, :screen_name, :image, :token, :secret
+  
+  has_many :projects
+  has_many :supportes
 
   private
 

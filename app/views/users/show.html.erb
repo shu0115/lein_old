@@ -1,0 +1,33 @@
+
+<p>
+  <b>Icon:</b><br />
+  <%= link_to_unless( @user.screen_name.blank?, image_tag( @user.image, size: "20x20" ), "https://twitter.com/#!/#{@user.screen_name}", target: "_blank" ) %>
+</p>
+
+<p>
+  <b>Name:</b><br />
+  <%= @user.screen_name %>
+</p>
+
+<b>サポートプロジェクト一覧：</b><br />
+
+<table>
+  <tr>
+    <th>Title</th>
+  </tr>
+
+<% @user.projects.each{ |project| %>
+  <tr>
+    <td><%= link_to( project.title, { controller: "projects", action: "show", id: project.id }, target: "_blank" ) %></td>
+  </tr>
+<% } %>
+</table>
+
+<br />
+
+<%= link_to t( "menu.list", default: "List" ), action: "index" %>
+
+<br />
+<br />
+
+<%= link_to t( "menu.top", default: "Top" ), :root %>
