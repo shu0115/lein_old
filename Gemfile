@@ -46,8 +46,10 @@ end
 
 # Utility
 gem 'kaminari'
-gem 'omniauth-scaffold'
 gem 'omniauth-twitter'
 gem 'twitter'
-gem 'custom-template'
 
+group :development do
+  gem 'omniauth-scaffold'
+  gem 'custom-template'
+end
