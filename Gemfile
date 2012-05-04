@@ -39,6 +39,7 @@ gem 'jquery-rails'
 
 # For Heroku
 gem 'thin'
+gem 'newrelic_rpm'
 
 group :production do
   gem 'pg'
