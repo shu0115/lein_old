@@ -34,14 +34,37 @@
     <th>Title</th>
   </tr>
 
-<% @user.supportes.each{ |supporter| %>
+<% @user.supporters.each{ |supporter| %>
   <tr>
-    <td><%= link_to( project.title, { controller: "projects", action: "show", id: project.id }, target: "_blank" ) %></td>
+    <td><%= link_to( supporter.project.try(:title), { controller: "projects", action: "show", id: supporter.project.try(:id) }, target: "_blank" ) %></td>
   </tr>
 <% } %>
 </table>
 
 <br />
+
+<%# ---------- インフォメーション ----------%>
+<% if @user.id == session[:user_id] %>
+<b>インフォメーション：</b><br />
+
+<table>
+  <tr>
+    <th>Project</th>
+    <th>Message</th>
+  </tr>
+
+<% @user.supporters.each{ |supporter| %>
+  <% supporter.project.information.each{ |info| %>
+  <tr>
+    <td><%= supporter.project.try(:title) %></td>
+    <td><%= info.message %></td>
+  </tr>
+  <% } %>
+<% } %>
+</table>
+
+<br />
+<% end %>
 
 <%= link_to t( "menu.list", default: "List" ), action: "index" %>
 

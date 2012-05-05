@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   # show #
   #------#
   def show
-    @user = User.where( id: params[:id] ).includes( :projects, { :supportes => :project } ).first
+    @user = User.where( id: params[:id] ).includes( :projects, { :supporters => { :project => :information } } ).first
   end
 
 end
