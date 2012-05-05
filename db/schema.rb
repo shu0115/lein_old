@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120504130903) do
+ActiveRecord::Schema.define(:version => 20120505032010) do
+
+  create_table "members", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "project_id"
+    t.string   "email"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "projects", :force => true do |t|
     t.integer  "user_id"
@@ -20,9 +28,10 @@ ActiveRecord::Schema.define(:version => 20120504130903) do
     t.text     "description"
     t.string   "url"
     t.string   "image"
-    t.integer  "supporter_count"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.integer  "supporter_count", :default => 0
+    t.string   "hash_tag"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   create_table "supporters", :force => true do |t|

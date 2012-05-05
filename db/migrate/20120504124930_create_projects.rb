@@ -7,7 +7,8 @@ class CreateProjects < ActiveRecord::Migration
       t.text :description
       t.string :url
       t.string :image
-      t.integer :supporter_count
+      t.integer :supporter_count, default: 0
+      t.string :hash_tag
 
       t.timestamps
     end

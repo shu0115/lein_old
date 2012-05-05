@@ -12,6 +12,7 @@
     <th>Image</th>
 <% end %>
     <th>Supporter count</th>
+    <th>Started</th>
     <th></th>
     <th></th>
     <th></th>
@@ -28,6 +29,7 @@
     <td><%= project.image %></td>
 <% end %>
     <td><%= project.supporter_count %></td>
+    <td><%= project.created_at.strftime("%Y/%m/%d %H:%M:%S") unless project.created_at.blank? %></td>
     <td><%= link_to t( "menu.show", default: "Show" ), action: "show", id: project.id %></td>
     <td><%= link_to t( "menu.edit", default: "Edit" ), action: "edit", id: project.id %></td>
     <td><%= link_to t( "menu.destroy", default: "Delete" ), { action: "destroy", id: project.id }, onclick: "return confirm('本当に削除してよろしいですか？');" %></td>

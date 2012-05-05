@@ -8,11 +8,27 @@ class ProjectsController < ApplicationController
     @projects = Project.includes( :user, { :supporters => :user } ).all
   end
 
+  #--------#
+  # recent #
+  #--------#
+  def recent
+    @projects = Project.order( "created_at DESC" ).includes( :user, { :supporters => :user } ).all
+    render action: "index"
+  end
+
+  #---------#
+  # popular #
+  #---------#
+  def popular
+    @projects = Project.order( "supporter_count DESC" ).includes( :user, { :supporters => :user } ).all
+    render action: "index"
+  end
+
   #------#
   # show #
   #------#
   def show
-    @project = Project.where( id: params[:id], user_id: session[:user_id] ).first
+    @project = Project.where( id: params[:id] ).includes( :supporters, :members ).first
   end
 
   #-----#
@@ -89,4 +105,22 @@ class ProjectsController < ApplicationController
     
     redirect_to( { action: "show", id: project_id }, notice: notice, alert: alert )
   end
+  
+  #------------#
+  # add_member #
+  #------------#
+  def add_member
+    print "[ params ] : " ; p params ;
+#    project_id = params[:project_id]
+    
+    member = Member.new( params[:member] )
+    member.user_id = session[:user_id]
+
+    unless member.save
+      alert = "メンバー登録に失敗しました。"
+    end
+    
+    redirect_to( { action: "show", id: member.project_id }, alert: alert )
+  end
+
 end
