@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
   # show #
   #------#
   def show
-    @project = Project.where( id: params[:id] ).includes( :supporters, :members ).first
+    @project = Project.where( id: params[:id] ).includes( :supporters, :members, :information ).first
   end
 
   #-----#
@@ -55,6 +55,7 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new( params[:project] )
     @project.user_id = session[:user_id]
+    @project.hash_tag = "#" + @project.hash_tag.to_s
 
     if @project.save
       redirect_to( { action: "index" }, notice: "Project was successfully created." )
@@ -110,9 +111,6 @@ class ProjectsController < ApplicationController
   # add_member #
   #------------#
   def add_member
-    print "[ params ] : " ; p params ;
-#    project_id = params[:project_id]
-    
     member = Member.new( params[:member] )
     member.user_id = session[:user_id]
 
@@ -121,6 +119,20 @@ class ProjectsController < ApplicationController
     end
     
     redirect_to( { action: "show", id: member.project_id }, alert: alert )
+  end
+  
+  #-----------------#
+  # add_information #
+  #-----------------#
+  def add_information
+    info = Information.new( params[:information] )
+    info.user_id = session[:user_id]
+
+    unless info.save
+      alert = "インフォメーション発信に失敗しました。"
+    end
+    
+    redirect_to( { action: "show", id: info.project_id }, alert: alert )
   end
 
 end

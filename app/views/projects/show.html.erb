@@ -13,11 +13,6 @@
 </p>
 
 <p>
-  <b>Email:</b><br />
-  <%= @project.email %>
-</p>
-
-<p>
   <b>Title:</b><br />
   <%= @project.title %>
 </p>
@@ -38,10 +33,23 @@
 </p>
 
 <p>
+  <b>Email:</b><br />
+  <%= @project.email %>
+</p>
+
+<p>
+  <b>HashTag:</b><br />
+  <%= @project.hash_tag %>
+</p>
+
+<p>
   <b>Supporter count:</b><br />
   <%= @project.supporter_count %>
 </p>
 
+<br />
+
+<%# ---------- メンバー ----------%>
 <%# メンバー登録フォーム %>
 <b>メンバー追加：</b><br />
 <%= form_for :member, url: { action: 'add_member' } do |f| %>
@@ -75,7 +83,46 @@
 </table>
 
 <br />
+<br />
 
+<%# ---------- インフォメーション ----------%>
+<%# インフォメーション登録フォーム %>
+<b>インフォメーション発信：</b><br />
+<%= form_for :information, url: { action: 'add_information' } do |f| %>
+  <%= f.hidden_field :project_id, { value: @project.id } %>
+
+  <span class="field">
+    <%= f.label :message, "メッセージ" %>：<br />
+    <%= f.text_area :message, rows: "5", cols: "50" %>
+  </span>
+  
+  <span class="actions">
+    <%= f.submit "Send", disable_with: "Send" %>
+  </span>
+<% end %>
+
+<br />
+
+<b>インフォメーション：</b><br />
+
+<table>
+  <tr>
+    <th>Message</th>
+    <th>Sent</th>
+  </tr>
+
+<% @project.information.each{ |info| %>
+  <tr>
+    <td><%= info.message %></td>
+    <td><%= info.created_at.strftime("%Y/%m/%d %H:%M:%S") unless info.created_at.blank? %></td>
+  </tr>
+<% } %>
+</table>
+
+<br />
+<br />
+
+<%# ---------- サポーター ----------%>
 <b>サポーターズ：</b><br />
 
 <table>
@@ -94,6 +141,7 @@
 <% } %>
 </table>
 
+<br />
 <br />
 
 <%= link_to t( "menu.edit", default: "Edit" ), action: "edit", id: @project.id %>

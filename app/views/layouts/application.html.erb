@@ -15,6 +15,7 @@
   <%= current_user.name %> : 
    | <%= link_to( "Project", { controller: "projects" } ) %>( <%= link_to( "Recent", { controller: "projects", action: "recent" } ) %> ／ <%= link_to( "Popular", { controller: "projects", action: "popular" } ) %> )
    | <%= link_to( "User", { controller: "users" } ) %>
+   | <%= link_to( "MyPage", { controller: "users", action: "show", id: session[:user_id] } ) %>
    || <%= link_to "Logout" , logout_path %>
 <% else %>
   <%# 未ログイン %>

@@ -11,6 +11,7 @@
     <th>Url</th>
     <th>Image</th>
 <% end %>
+    <th>HashTag</th>
     <th>Supporter count</th>
     <th>Started</th>
     <th></th>
@@ -28,6 +29,7 @@
     <td><%= project.url %></td>
     <td><%= project.image %></td>
 <% end %>
+    <td><%= project.hash_tag %></td>
     <td><%= project.supporter_count %></td>
     <td><%= project.created_at.strftime("%Y/%m/%d %H:%M:%S") unless project.created_at.blank? %></td>
     <td><%= link_to t( "menu.show", default: "Show" ), action: "show", id: project.id %></td>

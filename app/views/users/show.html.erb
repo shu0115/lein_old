@@ -9,7 +9,8 @@
   <%= @user.screen_name %>
 </p>
 
-<b>サポートプロジェクト一覧：</b><br />
+<%# ---------- プロジェクト ----------%>
+<b>主催プロジェクト一覧：</b><br />
 
 <table>
   <tr>
@@ -17,6 +18,23 @@
   </tr>
 
 <% @user.projects.each{ |project| %>
+  <tr>
+    <td><%= link_to( project.title, { controller: "projects", action: "show", id: project.id }, target: "_blank" ) %></td>
+  </tr>
+<% } %>
+</table>
+
+<br />
+
+<%# ---------- サポート ----------%>
+<b>サポートプロジェクト一覧：</b><br />
+
+<table>
+  <tr>
+    <th>Title</th>
+  </tr>
+
+<% @user.supportes.each{ |supporter| %>
   <tr>
     <td><%= link_to( project.title, { controller: "projects", action: "show", id: project.id }, target: "_blank" ) %></td>
   </tr>
