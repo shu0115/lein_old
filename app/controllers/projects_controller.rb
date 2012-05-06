@@ -107,7 +107,7 @@ class ProjectsController < ApplicationController
     if token.blank?
       # PayPal取引開始
       redirect_uri = PaypalApi.set_express_checkout( request.url )
-      print "[ redirect_uri ] : " ; p redirect_uri ;
+      
       redirect_to redirect_uri and return
     else
       # PayPal定期支払作成
@@ -132,8 +132,6 @@ class ProjectsController < ApplicationController
     supporter = Supporter.where( project_id: project_id, user_id: session[:user_id] ).first
     response = PaypalApi.cancel_recurring( supporter.try(:profile_id) )
     
-    print "[ response ] : " ; p response ;
-
     if response == "Success"
       notice, alert = Supporter.delete_support( project_id, session[:user_id] )
     else

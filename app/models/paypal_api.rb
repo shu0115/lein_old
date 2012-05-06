@@ -103,8 +103,6 @@ class PaypalApi
     request = self.get_request
     response = request.renew!( profile_id, :Cancel )
     
-    puts ; puts "[ response ] : " ; response.tapp ; puts ;
-    
     return response.ack
   end
   
