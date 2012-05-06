@@ -1,6 +1,6 @@
 # coding: utf-8
 class Supporter < ActiveRecord::Base
-  attr_accessible :payment, :project_id, :user_id
+  attr_accessible :payment, :project_id, :user_id, :profile_id
   
   belongs_to :project
   belongs_to :user
@@ -12,11 +12,11 @@ class Supporter < ActiveRecord::Base
   #------------------#
   # self.add_support #
   #------------------#
-  def self.add_support( project_id, user_id )
+  def self.add_support( project_id, user_id, profile_id )
     if self.where( project_id: project_id, user_id: user_id ).exists?
       alert = "既にサポーターになっています。"
     else
-      if self.create( project_id: project_id, user_id: user_id )
+      if self.create( project_id: project_id, user_id: user_id, profile_id: profile_id, payment: true )
         notice = "サポーターになりました。"
         
         # サポーター数カウント

@@ -29,6 +29,16 @@ class ProjectsController < ApplicationController
   #------#
   def show
     @project = Project.where( id: params[:id] ).includes( :supporters, :members, :information ).first
+    
+    supporter = Supporter.where( project_id: @project.id, user_id: session[:user_id] ).first
+    
+    unless supporter.blank?
+      begin
+        recurring = PaypalApi.get_recurring_profile( supporter.profile_id )
+      rescue Paypal::Exception::APIError => e
+        flash.now[:alert] = e.message
+      end
+    end
   end
 
   #-----#
@@ -92,7 +102,23 @@ class ProjectsController < ApplicationController
   #---------------#
   def add_supporter
     project_id = params[:project_id]
-    notice, alert = Supporter.add_support( project_id, session[:user_id] )
+    token = params[:token]
+    
+    if token.blank?
+      # PayPal取引開始
+      redirect_uri = PaypalApi.set_express_checkout( request.url )
+      print "[ redirect_uri ] : " ; p redirect_uri ;
+      redirect_to redirect_uri and return
+    else
+      # PayPal定期支払作成
+      profile_id = PaypalApi.create_recurring( token )
+
+      if profile_id.blank?
+        redirect_to( { action: "show", id: project_id }, alert: "ERROR!!" )
+      end
+    end
+
+    notice, alert = Supporter.add_support( project_id, session[:user_id], profile_id )
     
     redirect_to( { action: "show", id: project_id }, notice: notice, alert: alert )
   end
@@ -102,7 +128,17 @@ class ProjectsController < ApplicationController
   #------------------#
   def delete_supporter
     project_id = params[:project_id]
-    notice, alert = Supporter.delete_support( project_id, session[:user_id] )
+    
+    supporter = Supporter.where( project_id: project_id, user_id: session[:user_id] ).first
+    response = PaypalApi.cancel_recurring( supporter.try(:profile_id) )
+    
+    print "[ response ] : " ; p response ;
+
+    if response == "Success"
+      notice, alert = Supporter.delete_support( project_id, session[:user_id] )
+    else
+      alert = "PayPalのキャンセルに失敗しました。"
+    end
     
     redirect_to( { action: "show", id: project_id }, notice: notice, alert: alert )
   end

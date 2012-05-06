@@ -54,3 +54,9 @@ group :development do
   gem 'omniauth-scaffold'
   gem 'custom-template'
 end
+
+# For PayPal
+gem 'paypal-express'
+
+# For debug
+gem "tapp"

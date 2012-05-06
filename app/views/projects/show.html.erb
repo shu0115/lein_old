@@ -134,6 +134,7 @@
     <th>Icon</th>
     <th>Name</th>
     <th>Since</th>
+    <th>PayPal</th>
   </tr>
 
 <% @project.supporters.sort{ |a, b| b.created_at <=> a.created_at }.each{ |supporter| %>
@@ -141,6 +142,7 @@
     <td><%= link_to_unless( supporter.user.try(:screen_name).blank?, image_tag( supporter.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{supporter.user.try(:screen_name)}", target: "_blank" ) %></td>
     <td><%= supporter.user.try(:screen_name) %></td>
     <td><%= supporter.created_at.strftime("%Y/%m/%d %H:%M:%S") unless supporter.created_at.blank? %></td>
+    <td><%= supporter.payment ? "OK" : "NG" %></td>
   </tr>
 <% } %>
 </table>
