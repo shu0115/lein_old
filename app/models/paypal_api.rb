@@ -7,8 +7,6 @@ class PaypalApi
   PAYPAL_PASSWORD  = ENV['PAYPAL_PASSWORD']
   PAYPAL_SIGNATURE = ENV['PAYPAL_SIGNATURE']
   BILLING_AGREEMENT_DESCRIPTION = "Lein Supporter Charges"
-#  PAYPAL_EXPRESS_SUCCESS = ""
-#  PAYPAL_EXPRESS_CANCEL = ""
 
   #------------------#
   # self.get_request #
@@ -26,7 +24,7 @@ class PaypalApi
   #---------------------------#
   # self.set_express_checkout #
   #---------------------------#
-  def self.set_express_checkout( calback_url )
+  def self.set_express_checkout( success_calback_url, cancel_calback_url )
     # サンドボックス
     Paypal.sandbox! if ENV['PAYPAL_SANDBOX'] == "ON"
     
@@ -35,13 +33,13 @@ class PaypalApi
     payment_request = Paypal::Payment::Request.new(
       currency_code: :JPY, # if nil, PayPal use USD as default
       billing_type: :RecurringPayments,
-      billing_agreement_description: BILLING_AGREEMENT_DESCRIPTION
+      billing_agreement_description: BILLING_AGREEMENT_DESCRIPTION,
     )
     
     response = request.setup(
       payment_request,
-      calback_url,  # SUCCESS_CALBACK_URL
-      calback_url,  # CANCEL_CALBACK_URL
+      success_calback_url,
+      cancel_calback_url,
     )
     
     return response.redirect_uri

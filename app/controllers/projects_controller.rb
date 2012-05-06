@@ -105,8 +105,11 @@ class ProjectsController < ApplicationController
     token = params[:token]
     
     if token.blank?
+      success_calback_url = request.url
+      cancel_calback_url = url_for( controller: "projects", action: "show", id: project_id )
+      
       # PayPal取引開始
-      redirect_uri = PaypalApi.set_express_checkout( request.url )
+      redirect_uri = PaypalApi.set_express_checkout( success_calback_url, cancel_calback_url )
       
       redirect_to redirect_uri and return
     else
