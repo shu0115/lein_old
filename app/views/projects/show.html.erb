@@ -3,7 +3,7 @@
 <% if Supporter.where( project_id: @project.id, user_id: session[:user_id] ).exists? %>
   <%= link_to "サポーターをやめる", { action: "delete_supporter", project_id: @project.id }, onclick: "return confirm('「#{@project.title}」のサポーターをやめます。');" %>
 <% else %>
-  <%= link_to "サポーターになる", { action: "add_supporter", project_id: @project.id }, onclick: "return confirm('「#{@project.title}」のサポーターになります。');" %>
+  <%= link_to "サポーターになる", { action: "add_supporter", project_id: @project.id }, onclick: "return confirm( '「#{@project.title}」のサポーターになります。PayPalで150円/monthの登録をお願いします。' );" %>
 <% end %>
 </p>
 
@@ -57,6 +57,8 @@
 </p>
 
 <br />
+<hr />
+<br />
 
 <%# ---------- メンバー ----------%>
 <%# メンバー登録フォーム %>
@@ -94,6 +96,7 @@
 </table>
 
 <br />
+<hr />
 <br />
 
 <%# ---------- インフォメーション ----------%>
@@ -133,6 +136,7 @@
 </table>
 
 <br />
+<hr />
 <br />
 
 <%# ---------- サポーター ----------%>
