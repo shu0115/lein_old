@@ -3,6 +3,7 @@
 
 <table>
   <tr>
+    <th>Thumbnail</th>
     <th>Owner</th>
     <th>Email</th>
     <th>Title</th>
@@ -21,6 +22,11 @@
 
 <% @projects.each{ |project| %>
   <tr>
+    <td>
+      <% unless project.url.blank? %>
+        <%= image_tag( "http://capture.heartrails.com/150x150/border/shorten?#{project.url}", alt: project.title ) %>
+      <% end %>
+    </td>
     <td><%= link_to_unless( project.user.try(:screen_name).blank?, image_tag( project.user.try(:image), size: "20x20" ), "https://twitter.com/#!/#{project.user.try(:screen_name)}", target: "_blank" ) %></td>
     <td><%= project.email %></td>
     <td><%= project.title %></td>

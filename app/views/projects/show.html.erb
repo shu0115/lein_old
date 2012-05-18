@@ -8,6 +8,15 @@
 </p>
 
 <p>
+  <b>Image:</b><br />
+  <% if @project.image.present? %>
+    <%= image_tag( @project.image, alt: @project.title ) %>
+  <% elsif @project.url.present? %>
+    <%= image_tag( "http://capture.heartrails.com/150x150/border/shorten?#{@project.url}", alt: @project.title ) %>
+  <% end %>
+</p>
+
+<p>
   <b>User:</b><br />
   <%= @project.user_id %>
 </p>
